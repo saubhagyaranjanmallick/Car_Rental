@@ -1,38 +1,81 @@
-.App {
+/* In your App.css file */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+/* In your App.css or TabsComponent.css */
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
+
+body {
+  font-family: 'Poppins';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Other global styles can be added here */
+
+
+
+/* In your CSS file (e.g., styles.css) */
+.btn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: #fff;
+  border-radius: 20px;
+  padding: 10px 20px;
   text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-transform: capitalize;
+  transition: background-color 0.3s, border 0.3s;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.btn:hover {
+  background-color: #EEEEEE;
+  color: black;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.blurred-image {
+  height: 300px; /* Adjust height as needed */
+  width: 100%; /* Make sure the image fits the container */
+  object-fit: cover; /* Ensure the image covers the container */
+  filter: blur(3px); /* Adjust blur intensity as needed */
+  border-width: 2px solid #EEEEEE;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  color: #EEEEEE !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.tabs-container {
+  font-family: 'Poppins', sans-serif; /* Use Poppins font */
+}
+
+.tabs {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-bottom: 1px solid #ddd;
 }
 
-.App-link {
-  color: #61dafb;
+.tab-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #6E6E6E;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tab-button.active {
+  color: green; /* Active tab color */
 }
+
+.tab-content {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 100px; /* Minimum height for content area */
+}
+
