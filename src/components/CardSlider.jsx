@@ -8,13 +8,13 @@ import human_9 from '../assets/Image/human_9.jpg';
 // Sample card data
 const cardData = [
   {
-    image: human_9,
+    image: human_8,
     name: 'Ashok Kumar',
     location: 'Mumbai',
     message: 'Flexibel Price Control depending on situations.',
   },
   {
-    image: human_8,
+    image: human_9,
     name: 'Ravi Patel',
     location: 'Delhi',
     message: 'In time payments with attractive coupons for users.',

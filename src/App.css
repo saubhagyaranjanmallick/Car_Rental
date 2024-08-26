@@ -27,7 +27,7 @@ body {
   display: inline-block;
   cursor: pointer;
   font-size: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
   text-transform: capitalize;
   transition: background-color 0.3s, border 0.3s;
 }
@@ -45,7 +45,7 @@ body {
   border-width: 2px solid #EEEEEE;
 }
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-  color: #EEEEEE !important;
+  color: #4e4e4e !important;
 }
 
 .tabs-container {
@@ -77,5 +77,19 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
   min-height: 100px; /* Minimum height for content area */
+}
+@keyframes zoomIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.zoom-in {
+  animation: zoomIn 1s ease-out;
 }
 

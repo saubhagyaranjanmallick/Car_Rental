@@ -1,48 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   TextField,
   Button,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   Modal,
-  Typography,
   Box,
   Grid,
-  Stack,
-} from '@mui/material';
-import DoneIcon from '@mui/icons-material/Done';
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import PhoneIcon from '@mui/icons-material/Phone';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import PaymentIcon from '@mui/icons-material/Payment';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import PersonIcon from '@mui/icons-material/Person';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import HomeIcon from '@mui/icons-material/Home';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import MailIcon from '@mui/icons-material/Mail';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import Navbar from '../components/Navbar';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import PaymentIcon from "@mui/icons-material/Payment";
+import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import Navbar from "../components/Navbar";
 import done from "../assets/Icons/done.gif";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import ContactlessIcon from "@mui/icons-material/Contactless";
 
 const PaymentPage = () => {
-    const navigate =useNavigate();
+  const navigate = useNavigate();
   const [customerDetails, setCustomerDetails] = useState({
-    name: '',
-    phone: '',
-    alternatePhone: '',
-    email: '',
-    location: '',
-    address: '',
-    dlNumber: '',
-    panCard: '',
+    name: "",
+    address: "",
+    dlNumber: "",
+    panCard: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [scannerModalOpen, setScannerModalOpen] = useState(false);
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
@@ -66,257 +59,276 @@ const PaymentPage = () => {
 
   const handleCloseConfirmationModal = () => {
     setConfirmationModalOpen(false);
-    navigate('/bookings')
+    navigate("/bookings");
   };
 
   return (
-            <>
-                    <Box sx={{backgroundColor:"#121212" , width:"100dvw"}}>
-                        <Navbar  />
-                        </Box>  
-                        <div style={{ padding: '20px' }}>
-        <p style={{ fontWeight:500 , fontSize:"25px",color:"#00695C" }} >Customer Details</p>
+    <>
+      <Box sx={{ backgroundColor: "#121212", width: "100dvw" }}>
+        <Navbar />
+      </Box>
+      <div style={{ padding: "20px" }}>
+        <p style={{ fontWeight: 500, fontSize: "25px", color: "#00695C" }}>
+          Booking Details
+        </p>
 
-      <Card sx={{ padding: '20px', margin: '1px' }}>
-        <Grid container spacing={2}>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="Name"
-              name="name"
-              value={customerDetails.name}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <PersonIcon position="start" />,
-              }}
-            />
+        <Card sx={{ padding: "20px", margin: "1px", marginBottom:"10px" }}>
+          <Grid container spacing={2}>
+            <Grid item lg={4} md={6} xs={12}>
+              <TextField
+                label="Name"
+                name="name"
+                value={customerDetails.name}
+                onChange={handleCustomerDetailsChange}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  startAdornment: <PersonIcon position="start" />,
+                }}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} xs={12}>
+              <TextField
+                label="Address"
+                name="address"
+                value={customerDetails.address}
+                onChange={handleCustomerDetailsChange}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  startAdornment: <HomeIcon position="start" />,
+                }}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} xs={12}>
+              <TextField
+                label="DL No"
+                name="dlNumber"
+                value={customerDetails.dlNumber}
+                onChange={handleCustomerDetailsChange}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  startAdornment: <AssignmentIndIcon position="start" />,
+                }}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} xs={12}>
+              <TextField
+                label="PAN Card No"
+                name="panCard"
+                value={customerDetails.panCard}
+                onChange={handleCustomerDetailsChange}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  startAdornment: <AlternateEmailIcon position="start" />,
+                }}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} xs={12}>
+              <FormControl fullWidth margin="normal">
+                <Select
+                  value={paymentMethod}
+                  onChange={handlePaymentMethodChange}
+                  startAdornment={
+                    <PaymentIcon position="start" sx={{ mr: 1 }} />
+                  }
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Select Payment Method
+                  </MenuItem>
+                  <MenuItem value="Cash">Cash</MenuItem>
+                  <MenuItem value="PhonePay">Phone Pay</MenuItem>
+                  <MenuItem value="CreditCard">Credit Card</MenuItem>
+                  <MenuItem value="NetBanking">Net Banking</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item lg={3} md={6} xs={12}>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={handleOpenScannerModal}
+                sx={{ marginTop: "24px", float: "right", textTransform: "" }}
+                startIcon={<ContactlessIcon />}
+              >
+                Pay Now
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="Phone"
-              name="phone"
-              value={customerDetails.phone}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <PhoneIcon position="start" />,
-              }}
-            />
-          </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="Alternate No"
-              name="alternatePhone"
-              value={customerDetails.alternatePhone}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <PhoneIcon position="start" />,
-              }}
-            />
-          </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="Email ID"
-              name="email"
-              value={customerDetails.email}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <MailIcon position="start" />,
-              }}
-            />
-          </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="Location"
-              name="location"
-              value={customerDetails.location}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <LocationOnIcon position="start" />,
-              }}
-            />
-          </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="Address"
-              name="address"
-              value={customerDetails.address}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <HomeIcon position="start" />,
-              }}
-            />
-          </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="DL No"
-              name="dlNumber"
-              value={customerDetails.dlNumber}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <AssignmentIndIcon position="start" />,
-              }}
-            />
-          </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <TextField
-              label="PAN Card No"
-              name="panCard"
-              value={customerDetails.panCard}
-              onChange={handleCustomerDetailsChange}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: <AlternateEmailIcon position="start" />,
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Card>
-
-      <p style={{ fontWeight:500 , fontSize:"25px" , color:"#00695C" }} >Payment Details</p>
-
-      <Card sx={{ padding: '20px', margin: '5px', marginTop: '20px' }}>
-
-  <Grid container spacing={2}>
-    <Grid item lg={4} md={6} xs={12}>
-      <TextField
-        label="Customer Name"
-        value={"Saubhagy Mallick"}
-        fullWidth
-        margin="normal"
-        disabled
-        InputProps={{
-          startAdornment: <PersonIcon position="start" />,
-        }}
-      />
-    </Grid>
-    <Grid item lg={4} md={6} xs={12}>
-      <FormControl fullWidth margin="normal">
-        {/* <InputLabel>Payment Method</InputLabel> */}
-        <Select
-          value={paymentMethod}
-          onChange={handlePaymentMethodChange}
-          startAdornment={<PaymentIcon position="start" />}
-          displayEmpty
-        >
-          <MenuItem value="" disabled>
-            Select Payment Method
-          </MenuItem>
-          <MenuItem value="Cash">Cash</MenuItem>
-          <MenuItem value="PhonePay">Phone Pay</MenuItem>
-          <MenuItem value="CreditCard">Credit Card</MenuItem>
-          <MenuItem value="NetBanking">Net Banking</MenuItem>
-        </Select>
-      </FormControl>
-    </Grid>
-    <Grid item lg={1} md={6} xs={12}></Grid>
-    <Grid item lg={3} md={6} xs={12}>
-      <Button
-        variant="contained"
-        color="success"
-        onClick={handleOpenScannerModal}
-        
-        sx={{ marginTop: '24px',float:"center" }} // Align with other form elements
-      >
-        Proceed to Payment
-      </Button>
-    </Grid>
-  </Grid>
-</Card>
-
-
-      {/* Scanner Modal */}
-      <Modal
-        open={scannerModalOpen}
-        onClose={handleCloseScannerModal}
-        aria-labelledby="scanner-modal"
-        aria-describedby="scanner-modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 600,
-            bgcolor: 'background.paper',
-            border: '2px solid #EEEEEE',
-            boxShadow: 24,
-            p: 4,
-            textAlign: 'center',
-          }}
-        >
-          <QrCodeScannerIcon style={{ fontSize: '48px', marginBottom: '10px' }} />
-          <p id="scanner-modal-description" sx={{ mt: 2 }}>
-            Scan the QR code or proceed.
-          </p>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCloseScannerModal}
-            sx={{ marginTop: '20px' }}
+        </Card>
+        {/* Prime Fee Structure Accordion */}
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="prime-fee-structure-content"
+            id="prime-fee-structure-header"
           >
-            OK
-          </Button>
-        </Box>
-      </Modal>
+            <Typography
+              sx={{ fontWeight: 500, fontSize: "20px", color: "#00695C" }}
+            >
+              Prime Fee Structure
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ul style={{ fontFamily: "Poppins", fontSize: "16px", lineHeight: "1.5" }}>
+              <li>
+                <strong>Base Rental Fee</strong>: A standard 10% charge is
+                applied to cover the basic cost of renting the vehicle, ensuring
+                you have access to the car for the duration of your booking.
+              </li>
+              <li>
+                <strong>Late Return Fee</strong>: A penalty of 5% will be added
+                for returning the vehicle beyond the agreed-upon time, helping
+                to manage availability for other customers.
+              </li>
+              <li>
+                <strong>Damage Coverage Fee</strong>: A 15% fee is included to
+                cover potential damages to the vehicle, offering peace of mind
+                during your rental period.
+              </li>
+              <li>
+                <strong>Insurance Contribution</strong>: An 8% contribution is
+                required to ensure the vehicle is properly insured throughout
+                your rental, protecting you from unforeseen circumstances.
+              </li>
+              <li>
+                <strong>Maintenance & Service Fee</strong>: A 12% charge is
+                applied to cover the regular upkeep, cleaning, and servicing of
+                the vehicle, ensuring it's in top condition for every ride.
+              </li>
+            </ul>
+          </AccordionDetails>
+        </Accordion>
 
-      {/* Confirmation Modal */}
-      <Modal
-        open={confirmationModalOpen}
-        onClose={handleCloseConfirmationModal}
-        aria-labelledby="confirmation-modal"
-        aria-describedby="confirmation-modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 600,
-            bgcolor: 'background.paper',
-            border: '2px solid #EEEEEE',
-            boxShadow: 24,
-            p: 4,
-            textAlign: 'center',
-          }}
-        >
-          {/* <DoneIcon style={{ fontSize: '48px', color: 'green', marginBottom: '10px' }} /> */}
-          <img  src={done}/>
-          <p id="confirmation-modal-description" sx={{ mt: 2 }}>
-            Your Payment done successfully!
-          </p>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCloseConfirmationModal}
-            sx={{ marginTop: '20px' }}
+        <br />
+
+        {/* Prime Guidelines Accordion */}
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="prime-guidelines-content"
+            id="prime-guidelines-header"
           >
-             Done
-          </Button>
-          
-        
-        </Box>
-      </Modal>
-    </div>
+            <Typography
+              sx={{ fontWeight: 500, fontSize: "20px", color: "#00695C" }}
+            >
+              Prime Guidelines
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ul style={{ fontFamily: "Poppins", fontSize: "16px", lineHeight: "1.5" }}>
+              <li>
+                Age Requirement: Renters must be at least 21 years old to rent a
+                car, with certain vehicle categories requiring a higher minimum
+                age.
+              </li>
+              <li>
+                Driver's License: A valid driver's license must be presented at
+                the time of rental. International renters should carry both
+                their local license and an international driving permit.
+              </li>
+              <li>
+                Fuel Policy: The car must be returned with the same fuel level
+                as when rented, or additional refueling charges may apply.
+              </li>
+              <li>
+                Rental Duration: The minimum rental period is 24 hours. Late
+                returns may incur additional fees based on the rental terms.
+              </li>
+              <li>
+                Authorized Drivers: Only drivers listed on the rental agreement
+                are authorized to operate the vehicle. Additional drivers must
+                be added at the time of rental for an extra fee.
+              </li>
+              <li>
+                No Smoking: Smoking inside the rental vehicle is strictly
+                prohibited and may result in additional cleaning fees.
+              </li>
+            </ul>
+          </AccordionDetails>
+        </Accordion>
 
-            </>
-    
- 
+        {/* Scanner Modal */}
+        <Modal
+          open={scannerModalOpen}
+          onClose={handleCloseScannerModal}
+          aria-labelledby="scanner-modal"
+          aria-describedby="scanner-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 600,
+              bgcolor: "background.paper",
+              border: "2px solid #EEEEEE",
+              boxShadow: 24,
+              p: 4,
+              textAlign: "center",
+            }}
+          >
+            <QrCodeScannerIcon
+              style={{ height: "50px", width: "50px", color: "#00695C" }}
+            />
+            <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
+              Scan QR Code to Pay
+            </Typography>
+            <Button
+              onClick={handleCloseScannerModal}
+              variant="contained"
+              sx={{ textTransform: "none", mt: 2 }}
+            >
+              Mark Payment Complete
+            </Button>
+          </Box>
+        </Modal>
+
+        {/* Confirmation Modal */}
+        <Modal
+          open={confirmationModalOpen}
+          onClose={handleCloseConfirmationModal}
+          aria-labelledby="confirmation-modal"
+          aria-describedby="confirmation-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 500,
+              bgcolor: "background.paper",
+              border: "2px solid #EEEEEE",
+              boxShadow: 24,
+              p: 4,
+              textAlign: "center",
+            }}
+          >
+            <img src={done} alt="Done" style={{ width: "100px", height: "100px" }} />
+            <p  sx={{ mb: 2 }}>
+              Payment Completed  successfully
+            </p>
+            
+            <Button variant="contained" color="warning"  size="medium"
+              sx={{ textTransform: "none", mt: 2 }}>Print Recipt
+              </Button>&nbsp;
+              <Button
+              onClick={handleCloseConfirmationModal}
+              variant="contained"
+              sx={{ textTransform: "none", mt: 2 }}
+              size="medium"
+            >
+             My  Bookings
+            </Button>
+          </Box>
+        </Modal>
+      </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent, CardMedia, IconButton } from '@mui/material';
-import { Facebook as FacebookIcon, Twitter as TwitterIcon, Instagram as InstagramIcon, YouTube as YouTubeIcon, Mail as MailIcon, LocationOn as LocationOnIcon } from '@mui/icons-material';
-
+import { Facebook as FacebookIcon, Twitter as TwitterIcon, Instagram as InstagramIcon, YouTube as YouTubeIcon, Mail as MailIcon } from '@mui/icons-material';
+import map from "../assets/Image/map.jpg";
 // Define CSS for social icons
 const iconStyle = {
   color: '#00796B',
@@ -16,21 +16,21 @@ const linkStyle = {
 };
 
 const cardStyle = {
-  height: '150px',
+  height: '250px',
   width: '100%',
   textAlign: 'center',
 };
 
 const Footer = () => {
   return (
-    <Box component="footer" sx={{ bgcolor: '#f5f5f5', p: 3,mt:0 }}>
+    <Box component="footer" sx={{ bgcolor: '#f5f5f5', p: 3, mt: 0 }}>
       <Grid container spacing={4} justifyContent="center">
         {/* Useful Links */}
         <Grid item xs={12} sm={4}>
           <Typography variant='h6' fontFamily='serif' color='#00796B'>Useful Links</Typography>
           <Box sx={{ mt: 2 }}>
-            <Typography variant='body1' sx={linkStyle}>About Us</Typography><br/>
-            <Typography variant='body1' sx={linkStyle}>Services</Typography><br/>
+            <Typography variant='body1' sx={linkStyle}>About Us</Typography><br />
+            <Typography variant='body1' sx={linkStyle}>Services</Typography><br />
             <Typography variant='body1' sx={linkStyle}>Contact</Typography>
           </Box>
         </Grid>
@@ -57,18 +57,21 @@ const Footer = () => {
           </Box>
         </Grid>
 
-        {/* Location Card */}
+        {/* Location Card with Dummy Map Image */}
         <Grid item xs={12} sm={4}>
           <Card sx={cardStyle}>
             <CardContent>
-              <Typography variant='h6' fontFamily='serif' color='#00796B'>Our Location</Typography>
+              <Typography variant='h6' fontFamily='serif' fontWeight="500" color='#00796B'>Our Location</Typography>
               <CardMedia
                 component="img"
-                height="80"
-                image="https://maps.googleapis.com/maps/api/staticmap?center=New+York,NY&zoom=14&size=150x150&key=YOUR_API_KEY"
-                alt="Map Location"
+                height="150"
+                image={map}
+                alt="Dummy Google Maps"
               />
-              <Typography variant='body2' sx={{ mt: 1 }}>123 Prime Street, New York, NY, 10001</Typography>
+              <p style={{ fontSize: "10px" , color:"#0e849d",textAlign:"left" }}>
+               📌 DLF Cybercity,756400,Bhubaneswar,Odisha. 
+                 
+              </p>
             </CardContent>
           </Card>
         </Grid>

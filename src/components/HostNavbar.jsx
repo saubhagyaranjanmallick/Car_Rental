@@ -17,12 +17,12 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+// import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import SupportIcon from '@mui/icons-material/Support';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DashboardIcon from '@mui/icons-material/Dashboard'; // Import Dashboard icon
-import BusinessIcon from '@mui/icons-material/Business'; // Import Cab Details icon
+// import BusinessIcon from '@mui/icons-material/Business'; // Import Cab Details icon
 import human_1 from '../assets/Image/human_1.jpg'; // Assuming you have a user image here
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ const HostNavbar = () => {
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/hostdashboard' },
     { text: 'Profile', icon: <AccountCircleIcon />, path: '/profile' },
     // { text: 'Car Details', icon: <DirectionsCarIcon />, path: '/car-details' },
-    { text: 'Cab Details', icon: <BusinessIcon />, path: '/cabDetails' }, // New menu item
+    // { text: 'Cab Details', icon: <BusinessIcon />, path: '/cabDetails' }, 
     { text: 'Transactions', icon: <ReceiptIcon />, path: '/transactions' },
     { text: 'Technical Support', icon: <SupportIcon />, path: '/technical-support' },
     { text: 'Logout', icon: <ExitToAppIcon />, path: '/logout' },

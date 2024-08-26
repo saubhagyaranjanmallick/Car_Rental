@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const options = {
   autoClose: 3000,
   className: '',
-  position: toast.POSITION.TOP_RIGHT,
+  position:"top-right",
 };
 
 export const toastSuccess = message => {

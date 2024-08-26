@@ -16,6 +16,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import { useNavigate } from 'react-router-dom';
+import * as api from '../API/index';
 
 const style = {
   position: 'absolute',
@@ -43,6 +44,9 @@ const HostAuthModal = ({ open, handleClose }) => {
     location: '',
     otp: '',
   });
+  
+  const [useOtpLogin, setUseOtpLogin] = useState(true); // Track whether to use OTP login
+  const [showOtpField, setShowOtpField] = useState(false); // Track when to show the OTP field
 
   const toggleSignUp = () => setIsSignUp(!isSignUp);
 
@@ -53,16 +57,28 @@ const HostAuthModal = ({ open, handleClose }) => {
 
   const handleLoginTypeChange = (e) => {
     setLoginType(e.target.value);
+    setUseOtpLogin(e.target.value === 'otp');
+  };
+
+  const handleSendOtp = async () => {
+    const requestData ={
+      email: formValues.email,
+    }
+    const response = await api.hostsendOtp(requestData);
+    if (response.status === 200) {
+      console.log('OTP sent successfully');
+    }
+    setShowOtpField(true);
   };
 
   const handleSignInSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-in form submission logic
+    handleLoginproceed();
   };
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-up form submission logic
+    handleSignup();
   };
 
   useEffect(() => {
@@ -77,15 +93,67 @@ const HostAuthModal = ({ open, handleClose }) => {
         location: '',
         otp: '',
       });
+      setShowOtpField(false); // Reset OTP field visibility
     }
   }, [open]);
 
+  const handleSignup = async () => {
+    try {
+      const requestData = {
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        email: formValues.email,
+        contactNumber: formValues.contactNumber,
+        password: formValues.password,
+        location: formValues.location,
+      };
+      const result = await api.hostSignup(requestData);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlelogin = async () => {
+    try {
+      if (loginType === 'otp') {
+        const requestData = {
+          email: formValues.email,
+          otp: formValues.otp,
+        };
+        const result = await api.hostLogin(requestData); // Adjust for OTP login
+        if (result.status === 200) {
+          console.log("Host login successfully");
+          navigate('/hostdashboard');
+        }
+        else{
+          console.log("Please Try Again",);
+        }
+      } else if (loginType === 'password') {
+        const requestData = {
+          email: formValues.email,
+          password: formValues.password,
+        };
+        const result = await api.hostloginPassword(requestData); // Adjust for password login
+        if (result.status === 200) {
+          // navigate('/hostdashboard');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLoginproceed = () => {
+    handlelogin();
+  };
+
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} >
       <Box sx={style}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Box display="flex" alignItems="center">
-            <AssignmentIndIcon sx={{ color: '#00695C', height: 25, width: 25, mr: 1 }} onClick={()=>{navigate('/hostdashboard')}} />
+            <AssignmentIndIcon sx={{ color: '#00695C', height: 25, width: 25, mr: 1 }} />
             <Typography variant="h6">{isSignUp ? 'Host Sign Up' : 'Host Sign In'}</Typography>
           </Box>
           <IconButton onClick={handleClose}>
@@ -183,32 +251,49 @@ const HostAuthModal = ({ open, handleClose }) => {
               required
             />
 
-            {loginType === 'otp' ? (
-              <TextField
-                fullWidth
-                margin="normal"
-                label="OTP"
-                name="otp"
-                value={formValues.otp}
-                onChange={handleChange}
-                required
-              />
-            ) : (
-              <TextField
-                fullWidth
-                margin="normal"
-                label="Password"
-                name="password"
-                type="password"
-                value={formValues.password}
-                onChange={handleChange}
-                required
-              />
+            {useOtpLogin && !showOtpField && (
+              <Button type="submit" variant="contained" className="enquire-button" fullWidth sx={{ mt: 2 }}
+              
+                onClick={handleSendOtp}
+              >
+                Send OTP
+              </Button>
             )}
 
-            <Button type="submit" variant="contained" className="enquire-button" fullWidth sx={{ mt: 3 }}>
-              Sign In
-            </Button>
+            {useOtpLogin && showOtpField && (
+              <>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="OTP"
+                  name="otp"
+                  value={formValues.otp}
+                  onChange={handleChange}
+                  required
+                />
+                <Button type="submit" variant="contained" className="enquire-button" fullWidth sx={{ mt: 2 }}>
+                  Sign In
+                </Button>
+              </>
+            )}
+
+            {!useOtpLogin && (
+              <>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  value={formValues.password}
+                  onChange={handleChange}
+                  required
+                />
+                <Button type="submit" variant="contained" className="enquire-button" fullWidth sx={{ mt: 2 }}>
+                  Sign In
+                </Button>
+              </>
+            )}
           </form>
         )}
 

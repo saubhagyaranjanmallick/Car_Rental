@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserView } from 'react-device-detect';
 import { Grid, Box, Typography, Button, Card, CardContent, CardMedia } from '@mui/material';
-import { Link as ScrollLink, Element } from 'react-scroll';
-import { useNavigate } from 'react-router-dom';
+import { Element } from 'react-scroll';
+// import { useNavigate } from 'react-router-dom';
 import * as api from '../API/index';
 
 import car_img1 from '../assets/Image/car_img1.jpg';
-import car_img2 from '../assets/Image/car_img2.jpg';
 import car_img3 from '../assets/Image/car_img3.jpg';
 import car_img4 from '../assets/Image/car_img4.jpg';
 import Host_image from '../assets/Image/host_image.jpg';
@@ -31,7 +30,7 @@ const cardStyle = {
 };
 
 const Home = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSigninModalOpen, setIsSigninModalOpen] = useState(false);
   const [ishostSigninModalOpen, setIshostSigninModalOpen] = useState(false);
@@ -52,15 +51,15 @@ const Home = () => {
   const openHostSigninModal = () => setIshostSigninModalOpen(true);
   const closeHostSigninModal = () => setIshostSigninModalOpen(false);
 
-  const getUsers =async () =>{
-    const result = await api.fetchUserlist();
+  const getUsers = async () =>{
+    const result = await api.getUsers();
     console.log(result);
-    // toastSuccess("Users Get successfully");
+    // alert("Users Get successfully");
   }
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+   getUsers();
+  
+
 
   return (
     <>

@@ -1,19 +1,18 @@
 // HostDashboard.js
 import React from 'react';
-import HostNavbar from '../../components/HostNavbar ';
+import HostNavbar from '../../components/HostNavbar';
 import { BrowserView } from 'react-device-detect';
-import { Grid,Box,Step,StepLabel,Stepper, Card, CardActionArea, CardMedia, CardContent, Typography} from '@mui/material';
-import host_dashboard from "../../assets/Image/host_dashboard.jpg";
+import { Grid,Box,Step,StepLabel,Stepper} from '@mui/material';
 import host_video from "../../assets/Image/host_video.mp4";
-import cartrip from "../../assets/Image/cartrip.jpg";
 import login from "../../assets/Image/login.avif";
-import date from "../../assets/Image/date.jpg";
-import deposit from "../../assets/Image/deposit.jpg";
 import car2 from "../../assets/Image/car2.webp";
 import location from "../../assets/Image/location.png";
 import history from "../../assets/Image/history.png";
 import Footer from '../../components/Footer';
 import award from "../../assets/Image/award.png";
+import timestopped from "../../assets/Image/timestopped.png";
+import timeresumed from "../../assets/Image/timeresumed.png";
+import  time from "../../assets/Image/time.png";
 
 import CardSlider from '../../components/CardSlider';
 
@@ -77,10 +76,6 @@ const HostDashboard = () => {
     {/* Content to display over the video */}
   </div>
          </Box>
-        
-  
-
-   
         <Box sx={{ p: 2, textAlign: "center", backgroundColor: "#121212", color: "whitesmoke", fontSize: "14px" }}>
           <Grid container justifyContent="center" spacing={4}>
             <Grid item lg={3} md={3}>
@@ -120,7 +115,7 @@ const HostDashboard = () => {
 
           <p style={{textAlign:"center",fontWeight:600,color:"#1B5E20",fontSize:"30px"}}>Best Complements  From  Our <br/>
          <span style={{color:"#E65100",fontWeight:500,fontSize:"24px"}}>Hosts in 2024!</span> </p>
-           <img style={{height:120 , width:120}} src={award}/>
+           <img style={{height:120 , width:120}} src={award} alt='img'/>
           </Grid>
           {/* <Grid item lg={1}></Grid> */}
           <Grid item lg={6}>
@@ -128,34 +123,38 @@ const HostDashboard = () => {
           </Grid>
           <Grid item lg={1}></Grid>
 
-          {/* <Grid item lg={3}>
-          <Card sx={{ maxWidth: 345 }}>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="130"
-                      image={human_4}
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom  >
-                        Naina Roy, <span style={{fontSize:"18px",color:"#1B5E20"}}>(Kolkata)</span>
-                      </Typography>
-                      <Typography variant="subtitle2" color="text.secondary" textAlign="left">
-                      "Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species"
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-              </Card>
-          </Grid> */}
+       
 
          
         </Grid>
        
         </Box>
+        <br/>
         <Box sx={{ p: 4, textAlign: "center", color: "black", fontSize: "24px",minHeight:"250px",backgroundColor:"#E0F2F1" }}>
-          Why You Share your car with us ?
+          Why you share your car with us ?
+          <br/>
+          <Grid container  spacing={2} sx={{mt:3}}>
+           <Grid item lg={4}>
+            <img src={timestopped} alt='timestopped'/>
+           <p style={{ mt: 2, fontSize: "18px", fontWeight: "bold",color:"#6E6E6E" }}>
+              100% Safety Assurance
+            </p>
+           </Grid>
+           <Grid item lg={4}>
+           <img src={time} alt='time'/>
+
+           <p style={{ mt: 1, fontSize: "18px", fontWeight: "bold" ,color:"#6E6E6E" }}>
+              Ontime Payments
+            </p>
+           </Grid>
+           <Grid item lg={4}>
+           <img src={timeresumed} alt='timeresumed'/>
+            
+           <p style={{ mt: 1, fontSize: "18px", fontWeight: "bold" , color:"#6E6E6E" }}>
+              Trusted by 10k+ Hosts
+            </p>
+           </Grid>
+          </Grid>
         </Box>
         <Footer/>
         </div>

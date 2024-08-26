@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import HostNavbar from '../../components/HostNavbar '; // Adjust the import path if needed
+import HostNavbar from '../../components/HostNavbar'; // Adjust the import path if needed
 import {
   Card,
   CardContent,
@@ -14,10 +14,8 @@ import {
   Grid,
   TextField,
   Button,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
+  Input,
+  Box,Dialog,DialogContent,DialogTitle,DialogActions
 } from '@mui/material';
 import Check from '@mui/icons-material/Check';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -25,7 +23,12 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import PaymentIcon from '@mui/icons-material/Payment';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { styled } from '@mui/material/styles';
-
+import { PhotoCamera } from '@mui/icons-material';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import { toastSuccess,toastError } from '../../components/Toast';
 // Define connector styles for stepper
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -96,10 +99,47 @@ const steps = [
 const Profile = () => {
   const location = useLocation();
   const [activeStep, setActiveStep] = useState(0);
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState('');
-  const [state, setState] = useState(location.state?.host?.state || '');
-  const [country, setCountry] = useState(location.state?.host?.country || '');
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [carBrand, setCarBrand] = useState('');
+  const [carModel, setCarModel] = useState('');
+  const [carYear, setCarYear] = useState('');
+  const [carColor, setCarColor] = useState('');
+  const [seatingCapacity, setSeatingCapacity] = useState('');
+  const [fastTag, setFastTag] = useState('');
+  const [musicSystem, setMusicSystem] = useState('');
+  const [ac, setAc] = useState('');
+  const [parkingCamera, setParkingCamera] = useState('');
+  const [fueltype, setFueltype] = useState('');
+
+  const [bankName, setBankName] = useState('');
+  const [accountHolderName, setAccountHolderName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [ifscCode, setIfscCode] = useState('');
+  const [bankBranch, setBankBranch] = useState('');
+  const [accountType, setAccountType] = useState('');
+  const [swiftCode, setSwiftCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [paymentFrequency, setPaymentFrequency] = useState('');
+
+  // Handler functions for dropdown changes
+  const handleCarBrandChange = (event) => setCarBrand(event.target.value);
+  const handleCarModelChange = (event) => setCarModel(event.target.value);
+  const handleCarYearChange = (event) => setCarYear(event.target.value);
+  const handleCarColorChange = (event) => setCarColor(event.target.value);
+  const handleSeatingCapacityChange = (event) => setSeatingCapacity(event.target.value);
+  const handleFastTagChange = (event) => setFastTag(event.target.value);
+  const handleMusicSystemChange = (event) => setMusicSystem(event.target.value);
+  const handleAcChange = (event) => setAc(event.target.value);
+  const handleParkingCameraChange = (event) => setParkingCamera(event.target.value);
+  const handleFueltypeChange = (event) => setFueltype(event.target.value);
+
+  const handleBankNameChange = (event) => setBankName(event.target.value);
+  const handleAccountTypeChange = (event) => setAccountType(event.target.value);
+  const handleSwiftCodeChange = (event) => setSwiftCode(event.target.value);
+  const handlePaymentFrequencyChange = (event) => setPaymentFrequency(event.target.value);
+
+  const [openModal, setOpenModal] = useState(false);
+
 
   useEffect(() => {
     // This will be used to ensure the "Profile" section is highlighted
@@ -108,22 +148,6 @@ const Profile = () => {
 
   const handleStepClick = (step) => {
     setActiveStep(step);
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-  };
-
-  const handleCountryChange = (event) => {
-    setCountry(event.target.value);
   };
 
   const renderStepContent = (step) => {
@@ -135,7 +159,7 @@ const Profile = () => {
               Profile Details
             </Typography>
             <Divider />
-            <Grid container spacing={3}>
+            <Grid container spacing={3} sx={{mt:1}}>
               <Grid item xs={12} lg={4}>
                 <TextField
                   fullWidth
@@ -217,37 +241,29 @@ const Profile = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={4}>
-                <FormControl fullWidth>
-                  <InputLabel>State</InputLabel>
-                  <Select
-                    value={state}
-                    onChange={handleStateChange}
-                  >
-                    <MenuItem value="State1">State1</MenuItem>
-                    <MenuItem value="State2">State2</MenuItem>
-                    <MenuItem value="State3">State3</MenuItem>
-                    {/* Add more states as needed */}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} lg={4}>
-                <FormControl fullWidth>
-                  <InputLabel>Country</InputLabel>
-                  <Select
-                    value={country}
-                    onChange={handleCountryChange}
-                  >
-                    <MenuItem value="Country1">Country1</MenuItem>
-                    <MenuItem value="Country2">Country2</MenuItem>
-                    <MenuItem value="Country3">Country3</MenuItem>
-                    {/* Add more countries as needed */}
-                  </Select>
-                </FormControl>
+                <TextField
+                  fullWidth
+                  label="State"
+                  value={location.state?.host?.state || ''}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
               </Grid>
               <Grid item xs={12} lg={4}>
                 <TextField
                   fullWidth
-                  label="Pin"
+                  label="Country"
+                  value={location.state?.host?.country || ''}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <TextField
+                  fullWidth
+                  label="PIN Code"
                   value={location.state?.host?.pin || ''}
                   InputProps={{
                     readOnly: true,
@@ -255,24 +271,21 @@ const Profile = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={4}>
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ width: 100, height: 100, border: '1px solid #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {previewUrl ? (
-                      <img src={previewUrl} alt="Uploaded" style={{ width: '100%', height: '100%' }} />
-                    ) : (
-                      <Typography>Photo</Typography>
-                    )}
-                  </div>
-                </div>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
+               Upload Photo
+            
+              <Input
+                  fullWidth
+                  label="Upload Photo"
+                  type='file'
+                
+                />
+            <Button  variant='contained' color='success'  sx={{mt:2 , float:"right" , textTransform:"capitalize"}}>Save Details</Button>
+               
               </Grid>
             </Grid>
-            <br />
-            <Button variant="contained" color="primary" onClick={() => handleStepClick(activeStep - 1)}>
-              SAVE
-            </Button>
           </CardContent>
         );
+
       case 1:
         return (
           <CardContent>
@@ -280,7 +293,208 @@ const Profile = () => {
               Vehicle Details
             </Typography>
             <Divider />
-            {/* Add vehicle details here */}
+            {/* Render vehicle details here */}
+            <Grid container spacing={3} sx={{ mt: 0 }}>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Car Brand</InputLabel>
+                    <Select
+                      value={carBrand}
+                      onChange={handleCarBrandChange}
+                      label="Car Brand"
+                    >
+                      <MenuItem value="Toyota">Toyota</MenuItem>
+                      <MenuItem value="Honda">Honda</MenuItem>
+                      <MenuItem value="Ford">Ford</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Car Model Number</InputLabel>
+                    <Select
+                      value={carModel}
+                      onChange={handleCarModelChange}
+                      label="Car Model Number"
+                    >
+                      <MenuItem value="Corolla">Corolla</MenuItem>
+                      <MenuItem value="Civic">Civic</MenuItem>
+                      <MenuItem value="Focus">Focus</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Car Year</InputLabel>
+                    <Select
+                      value={carYear}
+                      onChange={handleCarYearChange}
+                      label="Car Year"
+                    >
+                      <MenuItem value="2020">2020</MenuItem>
+                      <MenuItem value="2021">2021</MenuItem>
+                      <MenuItem value="2022">2022</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Car Color</InputLabel>
+                    <Select
+                      value={carColor}
+                      onChange={handleCarColorChange}
+                      label="Car Color"
+                    >
+                      <MenuItem value="Red">Red</MenuItem>
+                      <MenuItem value="Blue">Blue</MenuItem>
+                      <MenuItem value="Black">Black</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Seating Capacity</InputLabel>
+                    <Select
+                      value={seatingCapacity}
+                      onChange={handleSeatingCapacityChange}
+                      label="Seating Capacity"
+                    >
+                      <MenuItem value="5">5</MenuItem>
+                      <MenuItem value="7">7</MenuItem>
+                      <MenuItem value="9">9</MenuItem>
+                      <MenuItem value="12">12</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Fast Tag</InputLabel>
+                    <Select
+                      value={fastTag}
+                      onChange={handleFastTagChange}
+                      label="Fast Tag"
+                    >
+                      <MenuItem value="Yes">Yes</MenuItem>
+                      <MenuItem value="No">No</MenuItem>
+                      <MenuItem value="N/A">N/A</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Music System</InputLabel>
+                    <Select
+                      value={musicSystem}
+                      onChange={handleMusicSystemChange}
+                      label="Music System"
+                    >
+                      <MenuItem value="Basic">Basic</MenuItem>
+                      <MenuItem value="Advanced">Advanced</MenuItem>
+                      <MenuItem value="Premium">Premium</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>AC</InputLabel>
+                    <Select
+                      value={ac}
+                      onChange={handleAcChange}
+                      label="AC"
+                    >
+                      <MenuItem value="Manual">Manual</MenuItem>
+                      <MenuItem value="Automatic">Automatic</MenuItem>
+                      <MenuItem value="Climate Control">Climate Control</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Parking Camera</InputLabel>
+                    <Select
+                      value={parkingCamera}
+                      onChange={handleParkingCameraChange}
+                      label="Parking Camera"
+                    >
+                      <MenuItem value="None">None</MenuItem>
+                      <MenuItem value="Rear">Rear</MenuItem>
+                      <MenuItem value="360 Degree">360 Degree</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                <FormControl fullWidth>
+                    <InputLabel>Fuel Type </InputLabel>
+                    <Select
+                      value={fueltype}
+                      onChange={handleFueltypeChange}
+                      label="Fuel Type"
+                    >
+                      <MenuItem value="None">Petrol</MenuItem>
+                      <MenuItem value="Rear">Disel</MenuItem>
+                      <MenuItem value="360 Degree">Electric</MenuItem>
+                    </Select>
+                  </FormControl>
+                  </Grid>
+                <Grid item xs={12} lg={4}>
+                  <TextField label="Car Registration No" fullWidth />
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <TextField
+                    fullWidth
+                    label="Price Per Hour"
+                    value="Price per hour value"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Grid>
+               </Grid>
+            <br/>
+            <p style={{fontSize:"20px" ,fontWeight:500 , color:"#00695C"}}>Upload Car Photos</p>
+            <Divider />
+            
+
+            <Grid container spacing={3} sx={{ mt: 1 }}>
+            <Grid item xs={12} lg={3}>
+            <Box
+            sx={{
+              height: "120px",
+              width: "150px",
+              border: "2px dotted #00695C",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+              cursor: "pointer",
+              mt:2,
+              borderRadius: "15px"
+            }}
+            component="label"
+          >
+            <PhotoCamera />
+            <Typography sx={{ ml: 1 }}>Upload Photo</Typography>
+            <input hidden accept="image/*" multiple type="file" onChange={handleImageUpload} />
+          </Box>
+           <p style={{fontSize:"10px"}}>File must be in Jpg and jpeg format and max 3 photos.</p>
+            </Grid>
+
+          <Grid container item xs={12} lg={9} spacing={2}>
+            {uploadedImages.map((image, index) => (
+              <Grid item key={index}>
+                <Card sx={{ width: 250, height: 200, overflow: 'hidden' }}>
+                  <CardContent sx={{ padding: 0 }}>
+                    <img src={image} alt={`Uploaded ${index}`} style={{ width: '100%', height: '100%', objectFit:"fill" }} />
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        <Button  variant='contained' color='success'  style={{mt:2 , float:"right" , textTransform:"capitalize"}}>Save Details</Button>
+
+
           </CardContent>
         );
       case 2:
@@ -290,7 +504,144 @@ const Profile = () => {
               Payment Details
             </Typography>
             <Divider />
-            {/* Add payment details here */}
+            <Grid container spacing={3} sx={{ mt: 0 }}>
+            <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Bank Name"
+          value={bankName}
+          onChange={handleBankNameChange}
+          select
+          InputProps={{
+            readOnly: false,
+          }}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          <option value="" />
+          <option value="HDFC">HDFC Bank</option>
+          <option value="SBI">State Bank of India</option>
+          <option value="ICICI">ICICI Bank</option>
+          <option value="Axis">Axis Bank</option>
+          <option value="Kotak">Kotak Mahindra Bank</option>
+          <option value="Yes">Yes Bank</option>
+          <option value="PNB">Punjab National Bank</option>
+          <option value="IDFC">IDFC FIRST Bank</option>
+          <option value="Citi">Citi Bank</option>
+          <option value="BankOfBaroda">Bank of Baroda</option>
+        </TextField>
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Account Holder Name"
+          value={accountHolderName}
+          onChange={(e) => setAccountHolderName(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Account Number"
+          value={accountNumber}
+          onChange={(e) => setAccountNumber(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="IFSC Code"
+          value={ifscCode}
+          onChange={(e) => setIfscCode(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Bank Branch"
+          value={bankBranch}
+          onChange={(e) => setBankBranch(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Account Type"
+          value={accountType}
+          onChange={handleAccountTypeChange}
+          select
+          InputProps={{
+            readOnly: false,
+          }}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          <option value=""></option>
+          <option value="Savings">Savings</option>
+          <option value="Current">Current</option>
+          <option value="Fixed">Fixed Deposit</option>
+          <option value="Recurring">Recurring Deposit</option>
+        </TextField>
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="SWIFT/BIC Code"
+          value={swiftCode}
+          onChange={handleSwiftCodeChange}
+          select
+          InputProps={{
+            readOnly: false,
+          }}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          <option value=""></option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </TextField>
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Account Link Phone Number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <TextField
+          fullWidth
+          label="Payment Frequency"
+          value={paymentFrequency}
+          onChange={handlePaymentFrequencyChange}
+          select
+          InputProps={{
+            readOnly: false,
+          }}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          <option value="" ></option>
+          <option value="Monthly">Monthly</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Daily">Daily</option>
+        </TextField>
+        <Button
+          variant='contained'
+          color='success'
+          style={{ mt: 2, float: "right", textTransform: "capitalize", marginTop: "10px" }}
+          onClick={handleProceed}
+        >
+          Proceed
+        </Button>
+      </Grid>
+            </Grid>
+
           </CardContent>
         );
       default:
@@ -298,32 +649,68 @@ const Profile = () => {
     }
   };
 
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files);
+    const newImages = files.map((file) => URL.createObjectURL(file));
+    setUploadedImages((prevImages) => [...prevImages, ...newImages]);
+  };
+  
+  const handleProceed = () => {
+    setOpenModal(true);
+  };
+
+  // Function to handle modal close
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  // Function to handle final submit
+  const handleFinalSubmit = () => {
+    // Implement final submit logic here
+    setOpenModal(false);
+    toastSuccess("Data has been submitted successfully.");
+  };
+
   return (
-    <Stack direction="row" spacing={2} style={{ justifyContent: 'space-between' }}>
-      <div>
+    <div style={{ display: 'flex' }}>
+      <div style={{ backgroundColor: '#f5f5f5', height: '100vh', width: '100vw', flexGrow: 1 }}>
         <HostNavbar />
-      </div>
-      <div style={{ width: '100%', maxWidth: '1200px', margin: 'auto' }}>
-        <Card>
-          <CardContent>
-            <Typography style={{ color: '#00695C', fontWeight: 600, fontSize: '30px' }}>
-              Profile
-            </Typography>
-            <Divider />
+        <div style={{ margin: '15px' }}> {/* Adjust margin for drawer width */}
+          <Stack sx={{ width: '100%' }} spacing={4}>
             <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
               {steps.map((step, index) => (
-                <Step key={index}>
-                  <StepLabel StepIconComponent={() => <QontoStepIcon icon={step.icon} completed={activeStep > index} active={activeStep === index} />}>
+                <Step key={step.label} onClick={() => handleStepClick(index)}>
+                  <StepLabel
+                    StepIconComponent={(props) => <QontoStepIcon {...props} icon={step.icon} />}
+                  >
                     {step.label}
                   </StepLabel>
                 </Step>
               ))}
             </Stepper>
+          </Stack>
+          <Card sx={{ p: 1, mt: 2 , m:1 }}> {/* Add some top margin to separate the card from the stepper */}
             {renderStepContent(activeStep)}
-          </CardContent>
-        </Card>
+          </Card>
+          <br/>
+           {/* Modal */}
+      <Dialog open={openModal} onClose={handleCloseModal} >
+        <DialogTitle style={{textAlign:"center" , color:"#26A69A" , fontWeight:"600", margin:"10px" , fontSize:"22px"}}>Confirm Submission</DialogTitle>
+        <DialogContent>
+          <p>Are you sure you want submit the data?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} variant='contained' color="warning" size='small' sx={{textTransform:"capitalize"}}>
+            No
+          </Button>
+          <Button onClick={handleFinalSubmit} variant='contained' color="success" size='small' sx={{textTransform:"capitalize"}}>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+        </div>
       </div>
-    </Stack>
+    </div>
   );
 };
 

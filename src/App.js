@@ -12,12 +12,12 @@ import Transactions from "./pages/Host/Transactions"; // Make sure this file exi
 import TechnicalSupport from "./pages/Host/TechnicalSupport"; // Make sure this file exists
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CarDetails from "./pages/CarDetails";
-// import { ToastContainer } from 'react-toastify'; // Uncomment if needed
+import { ToastContainer } from 'react-toastify'; // Uncomment if needed
 
 function App() {
   return (
     <Router>
-      {/* <ToastContainer autoClose={3000} /> */}
+      <ToastContainer autoClose={3000} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
